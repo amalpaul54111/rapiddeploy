@@ -7,7 +7,11 @@ COPY repos ../apps
 
 USER root
 
-RUN install-app posawesome && \
-    install-app wiki
+RUN install-app healthcare && \
+    install-app wiki  && \
+    install-app india_compliance  && \
+    install-app tac_core  && \
+    install-app payments && \
+    install-app frappe_s3_attachment
 
 USER frappe

@@ -1,25 +1,25 @@
 variable "FRAPPE_VERSION" {
-  default = "version-14"
+  default = "v14.7.0"
 }
 
 variable "ERPNEXT_VERSION" {
-  default = "version-14"
+  default = "v14.1.1"
 }
 
 variable "REGISTRY_NAME" {
-  default = "custom_images"
+  default = "tacten_images"
 }
 
 variable "BACKEND_IMAGE_NAME" {
-  default = "custom_worker"
+  default = "tacten_worker"
 }
 
 variable "FRONTEND_IMAGE_NAME" {
-  default = "custom_nginx"
+  default = "tacten_nginx"
 }
 
 variable "VERSION" {
-  default = "latest"
+  default = "v1.0"
 }
 
 group "default" {

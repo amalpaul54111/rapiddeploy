@@ -14,9 +14,15 @@
 # git clone --depth 1 --branch master ssh://git@github.com/frappe/twilio-integration repos/twilio_integration
 
 ## To use PAT use PERSONAL_ACCESS_TOKEN environment variable which is set through CI secret.
-# git clone --depth 1 --branch master https://username:${PERSONAL_ACCESS_TOKEN}@github.com/frappe/twilio-integration repos/twilio_integration
+#git clone --depth 1 --branch master https://pythonpen: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@github.com/pythonpen/healthcare repos/healthcare
+#git clone --depth 1 --branch main https://pythonpen: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@github.com/pythonpen/tac_core repos/tac_core
+git clone --depth 1 --branch main https://pythonpen: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@github.com/pythonpen/tac_core repos/tac_core
 
 # Following are public repositories.
 
-git clone --depth 1 --branch master https://github.com/yrestom/POS-Awesome repos/posawesome
+git clone --depth 1 --branch develop https://github.com/frappe/health repos/healthcare
+git clone --depth 1 --branch develop https://github.com/frappe/payments repos/payments
 git clone --depth 1 --branch master https://github.com/frappe/wiki repos/wiki
+git clone --depth 1 --branch develop https://github.com/resilient-tech/india-compliance repos/india_compliance
+git clone --depth 1 --branch develop https://github.com/Tacten/frappe-attachments-s3 repos/frappe_s3_attachment
+
