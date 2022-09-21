@@ -1,3 +1,54 @@
+
+### Instructions for K8s
+
+- sites folder has prebuilt site related files
+
+## Important Config Files
+
+# common_site_config.json
+# path: /home/frappe/frappe-bench/sites/
+
+- Contains all params for Redis connections etc
+
+```{
+ "background_workers": 1,
+ "db_host": "mariadb",
+ "file_watcher_port": 6787,
+ "frappe_user": "frappe",
+ "gunicorn_workers": 13,
+ "live_reload": true,
+ "maintenance_mode": 0,
+ "pause_scheduler": 0,
+ "rebase_on_pull": false,
+ "redis_cache": "redis://redis-cache:6379",
+ "redis_queue": "redis://redis-queue:6379",
+ "redis_socketio": "redis://redis-socketio:6379",
+ "restart_supervisor_on_update": false,
+ "restart_systemd_on_update": false,
+ "serve_default_site": true,
+ "shallow_clone": true,
+ "socketio_port": 9000,
+ "use_redis_auth": false,
+ "webserver_port": 8000
+} ```
+
+
+# site_config.json
+# path: /home/frappe/frappe-bench/sites/mb.biograph.care
+
+```{
+ "db_name": "yyyyyyyyyyyyyyyyyyyy",
+ "db_password": "xxxxxxxxxxxxxxx",
+ "db_type": "mariadb",
+"encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
+ "server_script_enabled": true
+ }```
+
+## Migrating the db schema after deploy
+
+- 1. Login to the frappe worker container and run the following command
+``` bench --site mb.biograph.care  override-migrate ```
+
 ### Introduction
 
 - This repo is based on official frappe_docker documentation to build [custom apps](https://github.com/frappe/frappe_docker/blob/main/custom_app/README.md).
