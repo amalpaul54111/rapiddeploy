@@ -10,7 +10,8 @@
 
 - Contains all params for Redis connections etc
 
-```{
+```
+{
  "background_workers": 1,
  "db_host": "mariadb",
  "file_watcher_port": 6787,
@@ -31,25 +32,29 @@
  "use_redis_auth": false,
  "webserver_port": 8000
 } 
+
 ```
 
 
 ### site_config.json
 ### path: /home/frappe/frappe-bench/sites/mb.biograph.care
 
-```{
+```
+{
  "db_name": "yyyyyyyyyyyyyyyyyyyy",
  "db_password": "xxxxxxxxxxxxxxx",
  "db_type": "mariadb",
 "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
  "server_script_enabled": true
- }
+}
  ```
 
 ## Migrating the db schema after deploy
 
 - 1. Login to the frappe worker container and run the following command
-``` bench --site mb.biograph.care  override-migrate 
+
+```
+bench --site mb.biograph.care  override-migrate
 ```
 
 ### Introduction
