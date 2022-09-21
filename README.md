@@ -1,12 +1,12 @@
 
-### Instructions for K8s
+# Instructions for K8s
 
 - sites folder has prebuilt site related files
 
 ## Important Config Files
 
-# common_site_config.json
-# path: /home/frappe/frappe-bench/sites/
+### common_site_config.json
+### path: /home/frappe/frappe-bench/sites/
 
 - Contains all params for Redis connections etc
 
@@ -30,11 +30,12 @@
  "socketio_port": 9000,
  "use_redis_auth": false,
  "webserver_port": 8000
-} ```
+} 
+```
 
 
-# site_config.json
-# path: /home/frappe/frappe-bench/sites/mb.biograph.care
+### site_config.json
+### path: /home/frappe/frappe-bench/sites/mb.biograph.care
 
 ```{
  "db_name": "yyyyyyyyyyyyyyyyyyyy",
@@ -42,12 +43,14 @@
  "db_type": "mariadb",
 "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
  "server_script_enabled": true
- }```
+ }
+ ```
 
 ## Migrating the db schema after deploy
 
 - 1. Login to the frappe worker container and run the following command
-``` bench --site mb.biograph.care  override-migrate ```
+``` bench --site mb.biograph.care  override-migrate 
+```
 
 ### Introduction
 
