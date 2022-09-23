@@ -10,7 +10,7 @@ USER root
 RUN install-app healthcare && \
     install-app wiki  && \
     install-app india_compliance  && \
-    install-app tac_core  && \
+    install-app tacten_core  && \
     install-app payments && \
     install-app frappe_s3_attachment
 
