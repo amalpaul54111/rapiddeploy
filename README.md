@@ -44,7 +44,7 @@
  "db_name": "yyyyyyyyyyyyyyyyyyyy",
  "db_password": "xxxxxxxxxxxxxxx",
  "db_type": "mariadb",
-"encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
+ "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
  "server_script_enabled": true
 }
  ```

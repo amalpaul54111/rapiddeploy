@@ -1,0 +1,12 @@
+{
+    "healthcare": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "f8134d3899ed9e40c1c3b254cb2de76226ba9da4",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 1,
+        "version": "0.0.1"
+    }
+}
