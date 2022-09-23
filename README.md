@@ -2,6 +2,9 @@
 # Instructions for K8s
 
 - sites folder has prebuilt site related files
+- mb.biograph.care // site name
+- we need to copy sites folder while creating the images for Frappe worker and nginx 
+- We also need to copy sites folder to this docker image as well : https://hub.docker.com/r/frappe/frappe-socketio
 
 ## Important Config Files
 
@@ -49,7 +52,7 @@
 }
  ```
 
-## Migrating the db schema after deploy
+## Migrating the db schema after cluster deployment
 
 - 1. Login to the frappe worker container and run the following command
 
