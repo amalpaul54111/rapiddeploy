@@ -1,7 +1,18 @@
 services:
   backend:
     image: tacten_images/tacten_worker:v1.0
-    command: configure.py
+    command:
+      - /home/frappe/frappe-bench/env/bin/gunicorn
+      - --bind=0.0.0.0:8000
+      - --config=/opt/patches/gevent_patch.py
+      - --log-file=-
+      - --preload
+      - --threads=4
+      - --timeout=120
+      - --worker-class=gevent
+      - --worker-tmp-dir=/dev/shm
+      - --workers=2
+      - frappe.app:application
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -9,23 +20,36 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
-
+    ports:
+      - 8000:8000
+  
   frontend:
+    restart: on-failure
     image: tacten_images/tacten_nginx:v1.0
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
-      FRAPPE_SITE_NAME_HEADER: ${FRAPPE_SITE_NAME_HEADER:-$$host}
+      FRAPPE_SITE_NAME_HEADER: mb.biograph.care
       UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
       UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
       UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
     depends_on:
       - backend
       - websocket
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+    ports:
+      - 8080:8080
 
   websocket:
     image: tacten_images/tacten_socketio:v1.0
-
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: localhost
+      UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
+      UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
+      UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
   queue-short:
     image: tacten_images/tacten_worker:v1.0
     command: bench worker --queue short

@@ -27,7 +27,7 @@ variable "VERSION" {
 }
 
 group "default" {
-    targets = ["backend"]
+    targets = ["backend", "frontend", "socketio"]
 }
 
 target "backend" {

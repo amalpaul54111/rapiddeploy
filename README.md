@@ -57,7 +57,7 @@
 - 1. Login to the frappe worker container and run the following command
 
 ```
-bench --site mb.biograph.care  override-migrate
+bench --site mb.biograph.care migrate
 ```
 
 ### Introduction
@@ -106,3 +106,11 @@ Note:
 - Use `docker buildx bake --push` to push images to registry.
 - Use `docker buildx bake --help` for more information.
 - Change version in `version.txt` to build tagged images from the changed version.
+
+## Notes to run docker-compose
+
+1. `./ci/clone-apps.sh`
+2. `docker buildx bake -f docker-bake.hcl`
+1. `docker-compose up mariadb`
+2. `docker-compose run migrate` (should exit with code 0)
+3. `docker-compose up frontend backend websocket`
