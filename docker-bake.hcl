@@ -18,12 +18,16 @@ variable "FRONTEND_IMAGE_NAME" {
   default = "tacten_nginx"
 }
 
+variable "SOCKETIO_IMAGE_NAME" {
+  default = "tacten_socketio"
+}
+
 variable "VERSION" {
   default = "v1.0"
 }
 
 group "default" {
-    targets = ["backend", "frontend"]
+    targets = ["backend"]
 }
 
 target "backend" {
@@ -31,6 +35,15 @@ target "backend" {
     tags = ["${REGISTRY_NAME}/${BACKEND_IMAGE_NAME}:${VERSION}"]
     args = {
       "ERPNEXT_VERSION" = ERPNEXT_VERSION
+    }
+}
+
+target "socketio" {
+    dockerfile = "images/socketio.Dockerfile"
+    tags = ["${REGISTRY_NAME}/${SOCKETIO_IMAGE_NAME}:${VERSION}"]
+    args = {
+      "ERPNEXT_VERSION" = ERPNEXT_VERSION
+      "FRAPPE_VERSION" = FRAPPE_VERSION
     }
 }
 

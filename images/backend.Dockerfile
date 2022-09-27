@@ -3,10 +3,9 @@
 ARG ERPNEXT_VERSION
 FROM frappe/erpnext-worker:${ERPNEXT_VERSION}
 
-COPY repos ../apps
+COPY --chown=frappe:frappe repos ../apps
 
 USER root
-
 RUN install-app healthcare && \
     install-app wiki  && \
     install-app india_compliance  && \
@@ -15,3 +14,5 @@ RUN install-app healthcare && \
     install-app frappe_s3_attachment
 
 USER frappe
+
+COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
