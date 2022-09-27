@@ -113,4 +113,4 @@ Note:
 2. `docker buildx bake -f docker-bake.hcl`
 1. `docker-compose up mariadb`
 2. `docker-compose run migrate` (should exit with code 0)
-3. `docker-compose up frontend backend websocket`
+3. `docker-compose up frontend`
