@@ -1,8 +1,8 @@
 frappe
-healthcare
-india_compliance
 erpnext
 tacten_core
 wiki
 frappe_s3_attachment
 payments
+india_compliance
+healthcare
