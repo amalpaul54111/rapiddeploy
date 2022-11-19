@@ -32,6 +32,10 @@ group "default" {
 
 target "assets" {
   dockerfile = "images/assests.Dockerfile"
+  args = {
+    "ERPNEXT_VERSION" = ERPNEXT_VERSION
+    "FRAPPE_VERSION" = FRAPPE_VERSION
+  }
 }
 
 target "backend" {
