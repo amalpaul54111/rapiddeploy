@@ -30,17 +30,14 @@ group "default" {
     targets = ["backend", "frontend", "socketio"]
 }
 
-target "base" {
+target "assets" {
   dockerfile = "images/assests.Dockerfile"
 }
 
-target "app" {
-  contexts = {
-    baseapp = "target:base"
-  }
-}
-
 target "backend" {
+    contexts = {
+      assets = "target:assets"
+    }
     dockerfile = "images/backend.Dockerfile"
     tags = ["${REGISTRY_NAME}/${BACKEND_IMAGE_NAME}:${VERSION}"]
     args = {
@@ -58,6 +55,9 @@ target "socketio" {
 }
 
 target "frontend" {
+    contexts = {
+      assets = "target:assets"
+    }
     dockerfile = "images/frontend.Dockerfile"
     tags = ["${REGISTRY_NAME}/${FRONTEND_IMAGE_NAME}:${VERSION}"]
     args = {
