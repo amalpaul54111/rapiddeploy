@@ -20,6 +20,10 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
+    volumes:
+      - ./frappe.log:/home/frappe/frappe-bench/sites/mb.biograph.care/logs/frappe.log
+      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
     ports:
       - 8000:8000
   
@@ -117,8 +121,11 @@ services:
     image: tacten_images/tacten_worker:v1.0
     command: bench --site mb.biograph.care  override-migrate
     volumes:
+      - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
+      - ./repos/tacten_core/tacten_core/s3_update.py:/home/frappe/frappe-bench/apps/frappe/frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.py
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+  
   
   redis-cache:
     image: redis:alpine
@@ -131,3 +138,4 @@ services:
 
 volumes:
   mariadb-data:
+

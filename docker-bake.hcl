@@ -30,6 +30,16 @@ group "default" {
     targets = ["backend", "frontend", "socketio"]
 }
 
+target "base" {
+  dockerfile = "images/assests.Dockerfile"
+}
+
+target "app" {
+  contexts = {
+    baseapp = "target:base"
+  }
+}
+
 target "backend" {
     dockerfile = "images/backend.Dockerfile"
     tags = ["${REGISTRY_NAME}/${BACKEND_IMAGE_NAME}:${VERSION}"]

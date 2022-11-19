@@ -15,4 +15,7 @@ RUN install-app healthcare && \
 
 USER frappe
 
+#TODO
+COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-bench/sites/assets
+
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites

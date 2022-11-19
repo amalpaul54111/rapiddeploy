@@ -1,5 +1,7 @@
 {
- "db_name": "_1mb_biograph_care",
+ "db_name": "_1mb_biograph_care_1",
  "db_password": "HUV4RSnMmhJbvaFe",
- "db_type": "mariadb"
+ "db_type": "mariadb",
+ "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY=",
+ "server_script_enabled": true
 }
