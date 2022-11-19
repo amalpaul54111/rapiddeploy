@@ -1,7 +1,9 @@
+# syntax=docker/dockerfile:1.4
+
 ARG FRAPPE_VERSION
 ARG ERPNEXT_VERSION
 
-FROM frappe/bench:latest as assets
+FROM frappe/bench:latest
 
 ARG FRAPPE_VERSION
 RUN bench init --version=${FRAPPE_VERSION} --skip-redis-config-generation --verbose /home/frappe/frappe-bench
