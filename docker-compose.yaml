@@ -1,6 +1,6 @@
 services:
   backend:
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     command:
       - /home/frappe/frappe-bench/env/bin/gunicorn
       - --bind=0.0.0.0:8000
@@ -26,10 +26,10 @@ services:
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
     ports:
       - 8000:8000
-  
+
   frontend:
     restart: on-failure
-    image: tacten_images/tacten_nginx:v1.0
+    image: ghcr.io/medblocks/erpnext/nginx
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
@@ -46,7 +46,7 @@ services:
       - 8080:8080
 
   websocket:
-    image: tacten_images/tacten_socketio:v1.0
+    image: ghcr.io/medblocks/erpnext/socketio
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
@@ -55,7 +55,7 @@ services:
       UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
       UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
   queue-short:
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue short
     environment:
       DB_HOST: ${DB_HOST}
@@ -64,10 +64,9 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
-    
 
   queue-default:
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue default
     environment:
       DB_HOST: ${DB_HOST}
@@ -76,9 +75,9 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
-  
+
   queue-long:
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -89,7 +88,7 @@ services:
     command: bench worker --queue long
 
   scheduler:
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -98,7 +97,7 @@ services:
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
     command: bench schedule
-  
+
   mariadb:
     image: mariadb:10.6
     command:
@@ -115,18 +114,15 @@ services:
       - 3306:3306
     volumes:
       - mariadb-data:/var/lib/mysql
-  
+
   migrate:
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/medblocks/erpnext/worker
     command: bench --site mb.biograph.care  override-migrate
     volumes:
-      - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-      - ./repos/tacten_core/tacten_core/s3_update.py:/home/frappe/frappe-bench/apps/frappe/frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.py
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-  
-  
+
   redis-cache:
     image: redis:alpine
 
@@ -138,4 +134,5 @@ services:
 
 volumes:
   mariadb-data:
+
 
