@@ -1,5 +1,6 @@
 frappe
 erpnext
+healthcare
 tacten_core
 wiki
 frappe_s3_attachment
