@@ -120,7 +120,6 @@ services:
     image: ghcr.io/medblocks/erpnext/worker
     command: bench --site mb.biograph.care  override-migrate
     volumes:
-      # - ./repos/tacten_core/tacten_core/s3_update.py:/home/frappe/frappe-bench/apps/frappe/frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.py
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
 
