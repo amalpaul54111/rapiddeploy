@@ -14,9 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
+      # - name: Docker meta
+      #   id: meta
+      #   uses: docker/metadata-action@v4
 
       - name: Clone custom apps
         run: ./ci/clone-apps.sh
@@ -55,15 +55,15 @@ jobs:
           push: true
           no-cache: true
           # set: "*.platform=linux/amd64,linux/arm64"
-          set: |
-            *.tags=${{ steps.meta.outputs.tags }}
-            *.labels=${{ steps.meta.outputs.labels }}
-            *.platform=linux/amd64,linux/arm64
+          # set: |
+          #   *.tags=${{ steps.meta.outputs.tags }}
+          #   *.labels=${{ steps.meta.outputs.labels }}
+          #   *.platform=linux/amd64,linux/arm64
         env:
           FRAPPE_VERSION: ${{ steps.get-base-versions.outputs.FRAPPE_VERSION }}
           ERPNEXT_VERSION: ${{ steps.get-base-versions.outputs.ERPNEXT_VERSION }}
           REGISTRY_NAME: ghcr.io/${{ github.repository_owner }}
-          VERSION: latest
+          VERSION: ${{  github.ref_name }}
           BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
           SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
