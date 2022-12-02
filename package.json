@@ -1,9 +1,9 @@
 {
   "name": "erpnext",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "release": "standard-version -a && git push --follow-tags origin main"
+    "release": "npx standard-version -a && git push --follow-tags origin main"
   },
   "repository": {
     "type": "git",
