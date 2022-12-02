@@ -31,8 +31,8 @@ services:
       - ./frappe.log:/home/frappe/frappe-bench/sites/mb.biograph.care/logs/frappe.log
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-      - ./private:/home/frappe/frappe-bench/sites/mb.biograph.care/private/files
-      - ./public:/home/frappe/frappe-bench/sites/mb.biograph.care/public/files
+      # - ./private:/home/frappe/frappe-bench/sites/mb.biograph.care/private/files
+      # - ./public:/home/frappe/frappe-bench/sites/mb.biograph.care/public/files
     ports:
       - 8000:8000
 
@@ -141,11 +141,11 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
     depends_on:
-      - redis-cache
+      - redis-queue
   migrate:
     restart: on-failure
     image: ghcr.io/medblocks/erpnext/worker
-    command: bash -c "printf 'Medblocks@123\nMedblocks@123\n' | bench --site mb.biograph.care override-migrate"
+    command: bench --site mb.biograph.care override-migrate
     volumes:
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
