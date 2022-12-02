@@ -77,9 +77,11 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
+    volumes:
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
     depends_on:
       - redis-queue
-  
+
   queue-default:
     image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue default
@@ -92,7 +94,8 @@ services:
       SOCKETIO_PORT: 9000
     depends_on:
       - redis-queue
-
+    volumes:
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
   queue-long:
     image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue long
@@ -105,6 +108,8 @@ services:
       SOCKETIO_PORT: 9000
     depends_on:
       - redis-queue
+    volumes:
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
 
   scheduler:
     image: ghcr.io/medblocks/erpnext/worker
@@ -116,6 +121,8 @@ services:
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
     command: bench schedule
+    volumes:
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
 
   mariadb:
     image: mariadb:10.6
