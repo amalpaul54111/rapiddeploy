@@ -1,0 +1,19 @@
+{
+  "name": "erpnext",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version -a && git push --follow-tags origin main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medblocks/erpnext.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/medblocks/erpnext/issues"
+  },
+  "homepage": "https://github.com/medblocks/erpnext#readme"
+}
