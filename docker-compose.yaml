@@ -20,10 +20,19 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
+    depends_on:
+      - queue-short
+      - queue-default
+      - queue-long
+      - scheduler
+      - redis-cache
+      - redis-socketio
     volumes:
       - ./frappe.log:/home/frappe/frappe-bench/sites/mb.biograph.care/logs/frappe.log
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+      - ./private:/home/frappe/frappe-bench/sites/mb.biograph.care/private/files
+      - ./public:/home/frappe/frappe-bench/sites/mb.biograph.care/public/files
     ports:
       - 8000:8000
 
@@ -54,6 +63,10 @@ services:
       UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
       UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
       UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
+    depends_on:
+      - backend
+      - redis-socketio
+
   queue-short:
     image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue short
@@ -64,7 +77,9 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
-
+    depends_on:
+      - redis-queue
+  
   queue-default:
     image: ghcr.io/medblocks/erpnext/worker
     command: bench worker --queue default
@@ -75,9 +90,12 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
+    depends_on:
+      - redis-queue
 
   queue-long:
     image: ghcr.io/medblocks/erpnext/worker
+    command: bench worker --queue long
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -85,7 +103,8 @@ services:
       REDIS_QUEUE: ${REDIS_QUEUE}
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
-    command: bench worker --queue long
+    depends_on:
+      - redis-queue
 
   scheduler:
     image: ghcr.io/medblocks/erpnext/worker
