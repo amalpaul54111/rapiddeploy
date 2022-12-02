@@ -49,7 +49,7 @@ jobs:
         id: get-repo
         run: echo "::set-output name=REPOSITORY::${GITHUB_REPOSITORY#*/}"
 
-      - name: Push
+      - name: Build and Push
         uses: docker/bake-action@v2.2.0
         with:
           push: true
