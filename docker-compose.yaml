@@ -140,14 +140,17 @@ services:
       - 3306:3306
     volumes:
       - mariadb-data:/var/lib/mysql
-
+    depends_on:
+      - redis-cache
   migrate:
     restart: on-failure
     image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care  override-migrate
+    command: bash -c "printf 'Medblocks@123\nMedblocks@123\n' | bench --site mb.biograph.care override-migrate"
     volumes:
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+    environment:
+      - ADMIN_PASSWORD=Medblocks@123
 
   redis-cache:
     image: redis:alpine
