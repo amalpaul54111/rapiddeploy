@@ -159,7 +159,8 @@ services:
     volumes:
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-
+    environment:
+      - ADMIN_PASSWORD=Medblocks@123
 
   redis-cache:
     image: redis:alpine
