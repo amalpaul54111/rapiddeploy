@@ -118,10 +118,19 @@ services:
   migrate:
     restart: on-failure
     image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care  override-migrate
+    command: bench --site mb.biograph.care migrate
     volumes:
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+
+  install-app:
+    restart: on-failure
+    image: ghcr.io/medblocks/erpnext/worker
+    command: bench --site mb.biograph.care setup-site
+    volumes:
+      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+
 
   redis-cache:
     image: redis:alpine
