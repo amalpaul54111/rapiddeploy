@@ -126,3 +126,17 @@ Note:
 1. `docker-compose up mariadb`
 2. `docker-compose run migrate` (should exit with code 0)
 3. `docker-compose up frontend`
+
+## Latest installation notes to run docker-compose:
+
+1. `./ci/clone-apps.sh` or Pull the latest medblocks/erpnext repo `git pull`
+2.  Remove existing images `docker rmi $(docker images -a -q)` `docker rm -f $(docker ps -aq)`
+3. `docker buildx bake  --no-cache --load`
+4. `docker-compose pull`
+5. `docker-compose down -v`
+6. `docker-compose up mariadb redis-cache redis-queue redis-socketio`
+7. `docker-compose run install-app`  --- (Need to execute only for fresh install of db and app)
+8. `docker-compose run migrate` --- (Need to execute after installing app or on existing site to update json files)
+
+
+
