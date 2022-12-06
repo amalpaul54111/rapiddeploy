@@ -135,8 +135,8 @@ Note:
 4. `docker-compose pull`
 5. `docker-compose down -v`
 6. `docker-compose up mariadb redis-cache redis-queue redis-socketio`
-7. `docker-compose run install-app`  --- (Need to execute only for fresh install of db and app)
-8. `docker-compose run migrate` --- (Need to execute after installing app or on existing site to update json files)
+7. `docker-compose run install-app`  --- (Execute only for fresh install of db and app)
+8. `docker-compose run migrate` --- (Execute on fresh install and on existing site to update json files)
 
 
 
