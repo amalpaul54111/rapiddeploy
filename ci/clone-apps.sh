@@ -25,5 +25,5 @@ git clone --depth 1 --branch main https://pythonpen:ghp_Ae0ADDzQdGrmNgY2LO4SZF9Y
 git clone --depth 1 --branch develop https://github.com/frappe/payments repos/payments
 git clone --depth 1 --branch master https://github.com/frappe/wiki repos/wiki
 git clone --depth 1 --branch version-14 https://github.com/resilient-tech/india-compliance repos/india_compliance
-git clone --depth 1 --branch master https://github.com/Tacten/frappe-attachments-s3 repos/frappe_s3_attachment
+# git clone --depth 1 --branch master https://github.com/Tacten/frappe-attachments-s3 repos/frappe_s3_attachment
 
