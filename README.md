@@ -1,4 +1,16 @@
 
+
+```
+docker-compose up mariadb
+```
+
+```
+docker-compose run migrate
+```
+
+```
+docker-compose up redis
+```
 # Instructions for K8s
 
 - sites folder has prebuilt site related files
