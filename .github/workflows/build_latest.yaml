@@ -67,3 +67,24 @@ jobs:
           BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
           SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
+      
+      - name: Fetch kustomize repo
+        uses: actions/checkout@v2
+        with:
+          repository: medblocks/kustomize
+          persist-credentials: false
+          fetch-depth: 0
+          token: ${{ secrets.NEUTRALBOY_GHSECRET }}
+
+      - name: Update the mainfest
+        run: |
+          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST\@${{ steps.docker_build.outputs.digest }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
+          git config --global user.email "leopoorna99@gmail.com"
+          git config --global user.name "neutralboy"
+          git add .
+          git commit -m "Tagged new image ${{ steps.docker_build.outputs.digest }}"
+      - name: Push to kustomize
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
+          repository: medblocks/kustomize
