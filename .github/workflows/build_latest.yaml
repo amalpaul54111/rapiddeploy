@@ -84,11 +84,11 @@ jobs:
 
       - name: Update the mainfest
         run: |
-          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST@${{ steps.docker_build.outputs.digest }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
+          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST@${{  github.ref_name }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
           git config --global user.email "leopoorna99@gmail.com"
           git config --global user.name "neutralboy"
           git add .
-          git commit -m "Tagged new erpnext ${{ steps.docker_build.outputs.digest }}"
+          git commit -m "Tagged new erpnext ${{  github.ref_name }}"
       - name: Push to kustomize
         uses: ad-m/github-push-action@master
         with:
