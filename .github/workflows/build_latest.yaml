@@ -82,7 +82,7 @@ jobs:
           git config --global user.email "leopoorna99@gmail.com"
           git config --global user.name "neutralboy"
           git add .
-          git commit -m "Tagged new image ${{ steps.docker_build.outputs.digest }}"
+          git commit -m "Tagged new erpnext ${{ steps.docker_build.outputs.digest }}"
       - name: Push to kustomize
         uses: ad-m/github-push-action@master
         with:
