@@ -83,6 +83,7 @@ jobs:
           token: ${{ secrets.NEUTRALBOY_GHSECRET }}
 
       - name: Update the mainfest
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST@${{  github.ref_name }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
           git config --global user.email "leopoorna99@gmail.com"
@@ -90,6 +91,7 @@ jobs:
           git add .
           git commit -m "Tagged new erpnext ${{  github.ref_name }}"
       - name: Push to kustomize
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
