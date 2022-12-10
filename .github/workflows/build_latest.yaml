@@ -78,7 +78,7 @@ jobs:
 
       - name: Update the mainfest
         run: |
-          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST\@${{ steps.docker_build.outputs.digest }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
+          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_DIGEST@${{ steps.docker_build.outputs.digest }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
           git config --global user.email "leopoorna99@gmail.com"
           git config --global user.name "neutralboy"
           git add .
