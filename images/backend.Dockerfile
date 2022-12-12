@@ -13,6 +13,10 @@ RUN install-app healthcare && \
   install-app payments && \
   install-app frappe_s3_attachment
 
+USER root
+RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
+
+
 USER frappe
 
 COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-bench/sites/assets
