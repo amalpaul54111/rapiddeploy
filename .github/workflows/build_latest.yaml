@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       # - name: Docker meta
       #   id: meta
       #   uses: docker/metadata-action@v4
@@ -73,11 +73,11 @@ jobs:
           BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
           SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
-      
-      - name: Fetch kustomize repo
+
+      - name: Fetch tacten-deploy repo
         uses: actions/checkout@v2
         with:
-          repository: medblocks/kustomize
+          repository: medblocks/tacten-deploy
           persist-credentials: false
           fetch-depth: 0
           token: ${{ secrets.NEUTRALBOY_GHSECRET }}
@@ -85,14 +85,14 @@ jobs:
       - name: Update the mainfest
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          cat deploy/medblocks_gcp/erpnext/kustomization.template.yaml | sed -e "s@NEW_TAG@${{  github.ref_name }}@g" | tee deploy/medblocks_gcp/erpnext/kustomization.yaml
+          cat apps/kustomization.template.yaml | sed -e "s@NEW_TAG@${{  github.ref_name }}@g" | tee apps/kustomization.yaml
           git config --global user.email "leopoorna99@gmail.com"
           git config --global user.name "neutralboy"
           git add .
           git commit -m "Tagged new erpnext ${{  github.ref_name }}"
-      - name: Push to kustomize
+      - name: Push to tacten-deploy
         if: startsWith(github.ref, 'refs/tags/v')
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
-          repository: medblocks/kustomize
+          repository: medblocks/tacten-deploy
