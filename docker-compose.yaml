@@ -36,6 +36,7 @@ services:
     ports:
       - 8000:8000
 
+
   frontend:
     restart: on-failure
     image: ghcr.io/medblocks/erpnext/nginx
