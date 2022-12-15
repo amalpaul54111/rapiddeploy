@@ -14,6 +14,8 @@ RUN install-app healthcare && \
   install-app frappe_s3_attachment && \
   install-app hrms
 
+  
+
 USER root
 RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
 
