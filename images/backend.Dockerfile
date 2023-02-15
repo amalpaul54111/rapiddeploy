@@ -12,8 +12,9 @@ RUN install-app healthcare && \
   install-app tacten_core  && \
   install-app payments && \
   install-app frappe_s3_attachment && \
-  install-app hrms
-
+  install-app hrms && \
+  install-app posawesome && \
+  install-app drive
   
 
 USER root

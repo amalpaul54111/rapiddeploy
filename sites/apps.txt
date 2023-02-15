@@ -7,3 +7,5 @@ frappe_s3_attachment
 payments
 india_compliance
 hrms
+drive
+posawesome
