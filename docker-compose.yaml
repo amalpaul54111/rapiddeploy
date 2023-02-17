@@ -165,18 +165,34 @@ services:
     environment:
       - ADMIN_PASSWORD=Medblocks@123 
 
+  remove-app: 
+    restart: on-failure
+    image: ghcr.io/medblocks/erpnext/worker
+    command: bench --site mb.biograph.care uninstall-app ${APPS}
+    volumes:
+      # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
+      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
+      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
+      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+
   new-app:
     restart: on-failure
     image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care  new-app 
+    command: bench --site mb.biograph.care install-app ${APPS}
     volumes:
-      - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
+      # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
+      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-    # environment:
-    #   - ADMIN_PASSWORD=Medblocks@123 
-
+  # get-app:
+  #   restart: on-failure
+  #   image: ghcr.io/medblocks/erpnext/worker
+  #   command: bench get-app ${APPS}
+  #   volumes:
+  #     # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
+  #     # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
+  #     - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
+  #     - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json  
 
   redis-cache:
     image: redis:alpine
