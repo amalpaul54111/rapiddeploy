@@ -11,9 +11,7 @@ RUN install-app healthcare && \
   install-app india_compliance  && \
   install-app tacten_core  && \
   install-app payments && \
-  install-app frappe_s3_attachment && \
-  install-app hrms && \
-  install-app drive
+  install-app frappe_s3_attachment
   
 
 USER root
