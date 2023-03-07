@@ -4,4 +4,7 @@ tacten_core
 healthcare
 wiki
 frappe_s3_attachment
+payments
 india_compliance
+drive
+hrms
