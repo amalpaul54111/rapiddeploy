@@ -90,9 +90,9 @@ jobs:
           git config --global user.name "neutralboy"
           git add .
           git commit -m "Tagged new erpnext ${{  github.ref_name }}"
-      - name: Push to tacten-deploy
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
-          repository: medblocks/tacten-deploy
+      # - name: Push to tacten-deploy
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
+      #     repository: medblocks/tacten-deploy
