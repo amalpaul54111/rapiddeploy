@@ -28,3 +28,6 @@ COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
 
 
 ADD  /repos/tacten_core/tacten_core/s3_update.py /home/frappe/frappe-bench/apps/frappe/frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.py
+
+ADD  /repos/payments/payments/paypal_settings.py /home/frappe/frappe-bench/apps/payments/payments/payment_gateways/doctype/paypal_settings/paypal_settings.py
+ 
