@@ -29,5 +29,5 @@ git clone --depth 1 --branch version-14 https://github.com/resilient-tech/india-
 git clone --depth 1 --branch develop https://github.com/frappe/hrms repos/hrms
 git clone --depth 1 --branch master https://github.com/Tacten/frappe-attachments-s3 repos/frappe_s3_attachment
 git clone --depth 1 --branch develop https://github.com/yrestom/POS-Awesome.git repos/posawesome
-
-git clone --depth 1 --branch main https://github.com/frappe/drive repos/drive
+git clone --depth 1 --branch main https://github.com/frappe/helpdesk.git
+#git clone --depth 1 --branch main https://github.com/frappe/drive repos/drive
