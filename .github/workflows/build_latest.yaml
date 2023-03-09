@@ -22,6 +22,7 @@ jobs:
         run: ./ci/clone-apps.sh
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          PYTHONPEN_GITHUB_PASSWORD: ${{ secrets.PYTHONPEN_GITHUB_PASSWORD }}
 
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
