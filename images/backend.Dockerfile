@@ -13,7 +13,8 @@ RUN install-app healthcare && \
   install-app payments && \
   install-app frappe_s3_attachment && \
   install-app hrms && \
-  install-app helpdesk
+  install-app frappedesk && \
+  install-app posawesome
   
 
 USER root
