@@ -14,8 +14,7 @@ RUN install-app healthcare && \
   install-app frappe_s3_attachment && \
   install-app hrms && \
   install-app frappedesk && \
-  install-app posawesome
-  
+  install-app posawesome 
 
 USER root
 RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
