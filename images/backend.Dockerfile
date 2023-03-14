@@ -27,4 +27,3 @@ COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-be
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
 
 
-ADD  /overrides/20230308_053014-ehealth_tacten_co-database.sql.gz /home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz
