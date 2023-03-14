@@ -13,8 +13,8 @@ RUN install-app healthcare && \
   install-app payments && \
   install-app frappe_s3_attachment && \
   install-app hrms && \
-  install-app frappedesk && \
-  install-app posawesome 
+  install-app frappedesk 
+  
 
 USER root
 RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
@@ -25,3 +25,6 @@ USER frappe
 COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-bench/sites/assets
 
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
+
+
+ADD  /overrides/20230308_053014-ehealth_tacten_co-database.sql.gz /home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz
