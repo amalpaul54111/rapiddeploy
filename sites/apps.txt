@@ -5,6 +5,8 @@ wiki
 india_compliance
 tacten_core
 payments
-frappedesk
+frappe_s3_attachment
 hrms
+frappedesk
+posawesome
 frappe_theme
