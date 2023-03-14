@@ -7,3 +7,4 @@ tacten_core
 payments
 frappedesk
 hrms
+frappe_theme
