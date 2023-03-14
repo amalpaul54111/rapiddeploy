@@ -18,7 +18,7 @@ RUN install-app healthcare && \
   install-app frappe_theme
 
 USER root
-RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
+RUN apt-get update && apt-get install -y libmagic-dev libmagic1 curl
 
 
 USER frappe
