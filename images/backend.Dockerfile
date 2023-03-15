@@ -13,7 +13,6 @@ RUN install-app healthcare && \
   install-app payments && \
   install-app frappe_s3_attachment && \
   install-app hrms && \
-  install-app frappedesk && \
   install-app posawesome && \
   install-app frappe_theme
 
@@ -26,6 +25,3 @@ USER frappe
 COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-bench/sites/assets
 
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
-
-ADD  /repos/tacten_core/tacten_core/sla_patch.py  /home/frappe/frappe-bench/apps/frappedesk/frappedesk/frappedesk/doctype/sla/sla.py
-

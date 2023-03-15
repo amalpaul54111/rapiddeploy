@@ -7,6 +7,5 @@ tacten_core
 payments
 frappe_s3_attachment
 hrms
-frappedesk
 posawesome
 frappe_theme
