@@ -27,5 +27,5 @@ COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-be
 
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
 
-ADD  /repos/tacten_core/tacten_core/sla_patch.py  /home/tacten/erpnext/repos/frappedesk/frappedesk/frappedesk/doctype/sla/sla.py
+ADD  /repos/tacten_core/tacten_core/sla_patch.py  /home/frappe/frappe-bench/apps/frappedesk/frappedesk/frappedesk/doctype/sla/sla.py
 
