@@ -1,4 +1,5 @@
 {
+ "allow_cors": "*",
  "db_name": "erpnext",
  "db_password": "HUV4RSnMmhJbvaFe",
  "db_type": "mariadb",
