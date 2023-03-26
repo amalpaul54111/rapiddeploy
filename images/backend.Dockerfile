@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
 ARG ERPNEXT_VERSION
-FROM frappe/erpnext-worker:${ERPNEXT_VERSION}
+FROM erpnext-worker
 
 COPY --chown=frappe:frappe repos ../apps
 
