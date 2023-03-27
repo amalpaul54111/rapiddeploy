@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.43](https://github.com/medblocks/erpnext/compare/v1.0.41...v1.0.43) (2023-03-16)
+
+### [1.0.42](https://github.com/medblocks/erpnext/compare/v1.0.41...v1.0.42) (2023-03-16)
+
+### [1.0.41](https://github.com/medblocks/erpnext/compare/v1.0.40...v1.0.41) (2023-03-15)
+
+### [1.0.40](https://github.com/medblocks/erpnext/compare/v1.0.30...v1.0.40) (2023-03-15)
+
+### [1.0.39](https://github.com/medblocks/erpnext/compare/v1.0.38...v1.0.39) (2023-03-15)
+
+### [1.0.38](https://github.com/medblocks/erpnext/compare/v1.0.37...v1.0.38) (2023-03-15)
+
+### [1.0.37](https://github.com/medblocks/erpnext/compare/v1.0.36...v1.0.37) (2023-03-15)
+
+### [1.0.36](https://github.com/medblocks/erpnext/compare/v1.0.35...v1.0.36) (2023-03-14)
+
+### [1.0.35](https://github.com/medblocks/erpnext/compare/v1.0.30...v1.0.35) (2023-03-14)
+
+### [1.0.34](https://github.com/medblocks/erpnext/compare/v1.0.33...v1.0.34) (2023-03-14)
+
+### [1.0.33](https://github.com/medblocks/erpnext/compare/v1.0.32...v1.0.33) (2023-03-14)
+
+### [1.0.32](https://github.com/medblocks/erpnext/compare/v1.0.30...v1.0.32) (2023-03-14)
+
+### [1.0.31](https://github.com/medblocks/erpnext/compare/v1.0.30...v1.0.31) (2023-03-13)
+
 ### [1.0.30](https://github.com/medblocks/erpnext/compare/v1.0.29...v1.0.30) (2023-03-07)
 
 ### [1.0.29](https://github.com/medblocks/erpnext/compare/v1.0.28...v1.0.29) (2023-03-07)

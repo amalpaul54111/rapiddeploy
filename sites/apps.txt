@@ -1,9 +1,11 @@
 frappe
 erpnext
-tacten_core
 healthcare
 wiki
-frappe_s3_attachment
 india_compliance
+tacten_core
 payments
-helpdesk
+frappe_s3_attachment
+hrms
+posawesome
+frappe_theme

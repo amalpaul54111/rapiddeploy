@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
 ARG ERPNEXT_VERSION
-FROM frappe/erpnext-worker:${ERPNEXT_VERSION}
+FROM erpnext-worker
 
 COPY --chown=frappe:frappe repos ../apps
 
@@ -13,11 +13,11 @@ RUN install-app healthcare && \
   install-app payments && \
   install-app frappe_s3_attachment && \
   install-app hrms && \
-  install-app helpdesk
-  
+  install-app posawesome && \
+  install-app frappe_theme
 
 USER root
-RUN apt-get update && apt-get install -y libmagic-dev && apt-get install libmagic1
+RUN apt-get update && apt-get install -y libmagic-dev libmagic1 curl
 
 
 USER frappe
@@ -25,9 +25,3 @@ USER frappe
 COPY --from=assets /home/frappe/frappe-bench/sites/assets /home/frappe/frappe-bench/sites/assets
 
 COPY --chown=frappe:frappe sites /home/frappe/frappe-bench/sites
-
-
-ADD  /repos/tacten_core/tacten_core/s3_update.py /home/frappe/frappe-bench/apps/frappe/frappe/integrations/doctype/s3_backup_settings/s3_backup_settings.py
-
-ADD  /repos/tacten_core/tacten_core/paypal_settings.py /home/frappe/frappe-bench/apps/payments/payments/payment_gateways/doctype/paypal_settings/paypal_settings.py
- 

@@ -16,6 +16,7 @@
 ## To use PAT use PERSONAL_ACCESS_TOKEN environment variable which is set through CI secret.
 # git clone --depth 1 --branch develop https://github.com/frappe/health repos/healthcare 
 git clone --depth 1 --branch develop https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@github.com/pythonpen/healthcare repos/healthcare
+
 git clone --depth 1 --branch main https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@github.com/pythonpen/tacten_core repos/tacten_core
 
 # Following are public repositories.
@@ -25,8 +26,8 @@ git clone --depth 1 --branch main https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@g
 git clone --depth 1 --branch develop https://github.com/frappe/payments repos/payments
 git clone --depth 1 --branch master https://github.com/frappe/wiki repos/wiki
 git clone --depth 1 --branch version-14 https://github.com/resilient-tech/india-compliance repos/india_compliance
-git clone --depth 1 --branch develop https://github.com/frappe/hrms repos/hrms
+git clone --depth 1 --branch version-14 https://github.com/frappe/hrms repos/hrms
 git clone --depth 1 --branch master https://github.com/Tacten/frappe-attachments-s3 repos/frappe_s3_attachment
-# git clone --depth 1 --branch develop https://github.com/yrestom/POS-Awesome repos/posawesome
-git clone --depth 1 --branch main https://github.com/frappe/helpdesk repos/helpdesk
-# git clone --depth 1 --branch main https://github.com/frappe/drive repos/drive
+git clone --depth 1 --branch develop https://github.com/yrestom/POS-Awesome repos/posawesome
+# git clone --depth 1 --branch main https://github.com/frappe/desk repos/frappedesk
+git clone --depth 1 --branch master https://github.com/frappe/frappe_theme.git repos/frappe_theme

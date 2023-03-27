@@ -159,7 +159,6 @@ services:
     command: bench --site mb.biograph.care setup-site
     volumes:
       - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      # - ./repos/payments/payments/paypal_settings.py:/home/frappe/frappe-bench/apps/payments/payments/payment_gateways/doctype/paypal_settings/paypal_settings.py
       # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
@@ -175,6 +174,20 @@ services:
       # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
       - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
       - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+
+  # restore-db: 
+  #   restart: on-failure
+  #   image: ghcr.io/medblocks/erpnext/worker
+  #   command: bench --site mb.biograph.care restore /home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz --db-root-username  db_name --db-root-password db_pwd --admin-password pwd
+  #   volumes:
+  #     # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
+  #     # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
+  #     # - ./overrides/20230308_053014-ehealth_tacten_co-database.sql.gz:/home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz
+  #     - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
+  #     - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+    # environment:
+    #   - DB_NAME=db5
+    #   - DB_PASSWORD=HUV4RSnMmhJbvaFe
 
   remove-app: 
     restart: on-failure
