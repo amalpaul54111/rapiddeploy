@@ -16,7 +16,7 @@
 ## To use PAT use PERSONAL_ACCESS_TOKEN environment variable which is set through CI secret.
 # git clone --depth 1 --branch develop https://github.com/frappe/health repos/healthcare 
 git clone --depth 1 --branch develop https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@github.com/pythonpen/healthcare repos/healthcare
-#git clone --depth 1 --branch main https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@github.com/pythonpen/tac_core repos/tac_core
+
 git clone --depth 1 --branch main https://pythonpen:$PYTHONPEN_GITHUB_PASSWORD@github.com/pythonpen/tacten_core repos/tacten_core
 
 # Following are public repositories.
