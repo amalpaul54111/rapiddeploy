@@ -6,6 +6,14 @@ variable "ERPNEXT_VERSION" {
   default = "v14.20.0"
 }
 
+variable "PYTHON_VERSION" {
+  default = can(regex("v13", "${ERPNEXT_VERSION}")) ? "3.9.9" : "3.10.5"
+}
+
+variable "NODE_VERSION" {
+  default = can(regex("v13", "${FRAPPE_VERSION}")) ? "14.19.3" : "16.18.0"
+}
+
 variable "REGISTRY_NAME" {
   default = "tacten_images"
 }
@@ -36,10 +44,10 @@ group "default" {
 
 target "erpnext-worker" {
     args = {
-        FRAPPE_VERSION = "${FRAPPE_VERSION}"
-        ERPNEXT_VERSION = "${ERPNEXT_VERSION}"
-        PYTHON_VERSION = can(regex("v13", "${ERPNEXT_VERSION}")) ? "3.9.9" : "3.10.5"
-        NODE_VERSION = can(regex("v13", "${FRAPPE_VERSION}")) ? "14.19.3" : "16.18.0"
+        "FRAPPE_VERSION" = FRAPPE_VERSION
+        "ERPNEXT_VERSION" = ERPNEXT_VERSION
+        "PYTHON_VERSION" = PYTHON_VERSION
+        "NODE_VERSION" = NODE_VERSION
     }
     context = "images/worker"
     target = "erpnext"
@@ -84,5 +92,7 @@ target "frontend" {
     args = {
       "FRAPPE_VERSION" = FRAPPE_VERSION
       "ERPNEXT_VERSION" = ERPNEXT_VERSION
+      "PYTHON_VERSION" = PYTHON_VERSION
+      "NODE_VERSION" = NODE_VERSION
     }
 }
