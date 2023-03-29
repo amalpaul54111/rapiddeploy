@@ -1,9 +1,9 @@
 variable "FRAPPE_VERSION" {
-  default = "v14.7.0"
+  default = "v14.30.0"
 }
 
 variable "ERPNEXT_VERSION" {
-  default = "v14.1.1"
+  default = "v14.20.0"
 }
 
 variable "REGISTRY_NAME" {
