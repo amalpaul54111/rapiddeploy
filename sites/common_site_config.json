@@ -17,5 +17,6 @@
  "shallow_clone": true,
  "socketio_port": 9000,
  "use_redis_auth": false,
- "webserver_port": 8000
+ "webserver_port": 8000,
+ "dns_multitenant": true
 }
