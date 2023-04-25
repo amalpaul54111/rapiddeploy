@@ -48,7 +48,7 @@ ENV PROXY_READ_TIMOUT=120
 ENV CLIENT_MAX_BODY_SIZE=50m
 
 # https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/stable/alpine/20-envsubst-on-templates.sh
-# COPY nginx-template.conf /etc/nginx/templates/default.conf.template
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 # https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/stable/alpine/docker-entrypoint.sh
 COPY images/entrypoint.sh /docker-entrypoint.d/frappe-entrypoint.sh
 
