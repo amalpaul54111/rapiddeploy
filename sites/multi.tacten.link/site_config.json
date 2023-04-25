@@ -1,8 +1,0 @@
-{
-"allow_cors": "*",
- "db_name": "_0362383994924df0",
- "db_password": "hrbw4Nl4uLrvVYYI",
- "db_type": "mariadb",
- "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzusg-przY=",
- "server_script_enabled": true
-}
