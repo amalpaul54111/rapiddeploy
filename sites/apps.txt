@@ -1,7 +1,6 @@
 frappe
 erpnext
 healthcare
-wiki
 india_compliance
 tacten_core
 payments
