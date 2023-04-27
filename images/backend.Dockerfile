@@ -7,7 +7,7 @@ COPY --chown=frappe:frappe repos ../apps
 
 USER root
 RUN install-app healthcare && \
-  install-app wiki  && \
+  # install-app wiki  && \
   install-app india_compliance  && \
   install-app tacten_core  && \
   install-app payments && \
