@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/medblocks/erpnext/worker
+    image: tacten_images/tacten_worker:v1.0
     command:
       - /home/frappe/frappe-bench/env/bin/gunicorn
       - --bind=0.0.0.0:8000
@@ -28,22 +28,18 @@ services:
       - redis-cache
       - redis-socketio
     volumes:
-      - ./frappe.log:/home/frappe/frappe-bench/sites/mb.biograph.care/logs/frappe.log
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-      # - ./private:/home/frappe/frappe-bench/sites/mb.biograph.care/private/files
-      # - ./public:/home/frappe/frappe-bench/sites/mb.biograph.care/public/files
+      - ./sites:/home/frappe/frappe-bench/sites
     ports:
       - 8000:8000
 
 
   frontend:
     restart: on-failure
-    image: ghcr.io/medblocks/erpnext/nginx
+    image: tacten_images/tacten_nginx:v1.0
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
-      FRAPPE_SITE_NAME_HEADER: mb.biograph.care
+      # FRAPPE_SITE_NAME_HEADER: erpnext.localhost
       UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
       UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
       UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
@@ -56,7 +52,7 @@ services:
       - 8080:8080
 
   websocket:
-    image: ghcr.io/medblocks/erpnext/socketio
+    image: tacten_images/tacten_socketio:v1.0
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
@@ -69,7 +65,7 @@ services:
       - redis-socketio
 
   queue-short:
-    image: ghcr.io/medblocks/erpnext/worker
+    image: tacten_images/tacten_worker:v1.0
     command: bench worker --queue short
     environment:
       DB_HOST: ${DB_HOST}
@@ -79,12 +75,12 @@ services:
       REDIS_SOCKETIO: ${REDIS_SOCKETIO}
       SOCKETIO_PORT: 9000
     volumes:
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+      - ./sites:/home/frappe/frappe-bench/sites
     depends_on:
       - redis-queue
 
   queue-default:
-    image: ghcr.io/medblocks/erpnext/worker
+    image: tacten_images/tacten_worker:v1.0
     command: bench worker --queue default
     environment:
       DB_HOST: ${DB_HOST}
@@ -96,9 +92,9 @@ services:
     depends_on:
       - redis-queue
     volumes:
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+      - ./sites:/home/frappe/frappe-bench/sites
   queue-long:
-    image: ghcr.io/medblocks/erpnext/worker
+    image: tacten_images/tacten_worker:v1.0
     command: bench worker --queue long
     environment:
       DB_HOST: ${DB_HOST}
@@ -110,10 +106,10 @@ services:
     depends_on:
       - redis-queue
     volumes:
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+      - ./sites:/home/frappe/frappe-bench/sites
 
   scheduler:
-    image: ghcr.io/medblocks/erpnext/worker
+    image: tacten_images/tacten_worker:v1.0
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -123,7 +119,7 @@ services:
       SOCKETIO_PORT: 9000
     command: bench schedule
     volumes:
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
+      - ./sites:/home/frappe/frappe-bench/sites
 
   mariadb:
     image: mariadb:10.6
@@ -133,90 +129,16 @@ services:
       - --skip-character-set-client-handshake
       - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
     environment:
-      MYSQL_ROOT_PASSWORD: "123"
-      # MARIADB_DATABASE: erpnext_db
-      # MARIADB_USER: erpnext_user
-      # MARIADB_PASSWORD: erpnext_password
-    ports:
+      MYSQL_ROOT_PASSWORD: "MariaDBPassword@123"
+      MARIADB_DATABASE: erpnextdb
+      MARIADB_USER: erpnext
+      MARIADB_PASSWORD: MariaDBPassword@123
+    ports:             
       - 3306:3306
     volumes:
       - mariadb-data:/var/lib/mysql
     depends_on:
       - redis-queue
-  migrate:
-    restart: on-failure
-    image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care migrate
-    volumes:
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-    environment:
-      - ADMIN_PASSWORD=Medblocks@123
-
-  install-app:
-    restart: on-failure
-    image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care setup-site
-    volumes:
-      - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-    environment:
-      - ADMIN_PASSWORD=Medblocks@123 
-
-  reinstall-app: 
-    restart: on-failure
-    image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care reinstall
-    volumes:
-      - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-
-  # restore-db: 
-  #   restart: on-failure
-  #   image: ghcr.io/medblocks/erpnext/worker
-  #   command: bench --site mb.biograph.care restore /home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz --db-root-username  db_name --db-root-password db_pwd --admin-password pwd
-  #   volumes:
-  #     # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-  #     # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-  #     # - ./overrides/20230308_053014-ehealth_tacten_co-database.sql.gz:/home/frappe/frappe-bench/sites/20230308_053014-ehealth_tacten_co-database.sql.gz
-  #     - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-  #     - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-    # environment:
-    #   - DB_NAME=db5
-    #   - DB_PASSWORD=HUV4RSnMmhJbvaFe
-
-  remove-app: 
-    restart: on-failure
-    image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care uninstall-app ${APPS}
-    volumes:
-      # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-
-  new-app:
-    restart: on-failure
-    image: ghcr.io/medblocks/erpnext/worker
-    command: bench --site mb.biograph.care install-app ${APPS}
-    volumes:
-      # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-      # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-      - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-      - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json
-  # get-app:
-  #   restart: on-failure
-  #   image: ghcr.io/medblocks/erpnext/worker
-  #   command: bench get-app ${APPS}
-  #   volumes:
-  #     # - ./sites/apps.txt:/home/frappe/frappe-bench/sites/apps.txt
-  #     # - ./repos/tacten_core/tacten_core:/home/frappe/frappe-bench/apps/tacten_core/tacten_core
-  #     - ./overrides/common_site_config.json:/home/frappe/frappe-bench/sites/common_site_config.json
-  #     - ./overrides/site_config.json:/home/frappe/frappe-bench/sites/mb.biograph.care/site_config.json  
 
   redis-cache:
     image: redis:alpine
