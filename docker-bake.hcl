@@ -15,7 +15,7 @@ variable "NODE_VERSION" {
 }
 
 variable "REGISTRY_NAME" {
-  default = "tacten_images"
+  default = "tacten/erpnext-template"
 }
 
 variable "ERPNEXT_WORKER_IMAGE_NAME" {
@@ -23,15 +23,15 @@ variable "ERPNEXT_WORKER_IMAGE_NAME" {
 }
 
 variable "BACKEND_IMAGE_NAME" {
-  default = "tacten_worker"
+  default = "worker"
 }
 
 variable "FRONTEND_IMAGE_NAME" {
-  default = "tacten_nginx"
+  default = "nginx"
 }
 
 variable "SOCKETIO_IMAGE_NAME" {
-  default = "tacten_socketio"
+  default = "socketio"
 }
 
 variable "VERSION" {
