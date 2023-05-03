@@ -14,10 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Docker meta
-      #   id: meta
-      #   uses: docker/metadata-action@v4
-
       - name: Clone custom apps
         run: ./ci/clone-apps.sh
         env:
@@ -49,15 +45,18 @@ jobs:
       - name: Get Base Versions
         id: get-base-versions
         run: |
-          echo "::set-output name=FRAPPE_VERSION::$(jq -r .frappe base_versions.json)"
-          echo "::set-output name=ERPNEXT_VERSION::$(jq -r .erpnext base_versions.json)"
+          MY_VAR="$(jq -r .frappe base_versions.json)"
+          echo "FRAPPE_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
+          MY_VAR="$(jq -r .erpnext base_versions.json)"
+          echo "ERPNEXT_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
 
       - name: Get Repo
         id: get-repo
         run: |
-          export GITHUB_OWNER=${{ github.repository_owner }}
-          echo "::set-output name=REPOSITORY::${GITHUB_REPOSITORY#*/}"
-          echo "::set-output name=OWNER::${GITHUB_OWNER,,}"
+          echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
+          GITHUB_OWNER=${{ github.repository_owner }}
+          GITHUB_OWNER=$(echo $GITHUB_OWNER | tr '[:upper:]' '[:lower:]')
+          echo "GITHUB_OWNER=$GITHUB_OWNER" >> $GITHUB_OUTPUT
 
       - name: Build and Push
         uses: docker/bake-action@v2.3.0
@@ -72,15 +71,15 @@ jobs:
         env:
           FRAPPE_VERSION: ${{ steps.get-base-versions.outputs.FRAPPE_VERSION }}
           ERPNEXT_VERSION: ${{ steps.get-base-versions.outputs.ERPNEXT_VERSION }}
-          REGISTRY_NAME: ghcr.io/${{ steps.get-repo.outputs.OWNER }}
+          REGISTRY_NAME: ghcr.io/${{ steps.get-repo.outputs.GITHUB_OWNER }}
           VERSION: ${{  github.ref_name }}
           BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
           SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
 
-      - name: Deploy
-        run: |
-          docker compose up -d
+      # - name: Deploy
+      #   run: |
+      #     docker compose up -d
 
       # - name: Fetch tacten-deploy repo
       #   uses: actions/checkout@v2
