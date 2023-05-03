@@ -54,7 +54,9 @@ jobs:
 
       - name: Get Repo
         id: get-repo
-        run: echo "::set-output name=REPOSITORY::${GITHUB_REPOSITORY#*/}"
+        run: |
+          echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+          echo "::set-output name=REPOSITORY::${REPO#*/}"
 
       - name: Build and Push
         uses: docker/bake-action@v2.3.0
@@ -69,7 +71,7 @@ jobs:
         env:
           FRAPPE_VERSION: ${{ steps.get-base-versions.outputs.FRAPPE_VERSION }}
           ERPNEXT_VERSION: ${{ steps.get-base-versions.outputs.ERPNEXT_VERSION }}
-          REGISTRY_NAME: ghcr.io/${{ github.repository_owner.lowercase }}
+          REGISTRY_NAME: ghcr.io/${{ github.repository_owner }}
           VERSION: ${{  github.ref_name }}
           BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
