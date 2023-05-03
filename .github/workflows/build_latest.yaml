@@ -75,6 +75,10 @@ jobs:
           FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
           SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
 
+      - name: Deploy
+        run: |
+          docker compose up -d
+
       # - name: Fetch tacten-deploy repo
       #   uses: actions/checkout@v2
       #   with:
