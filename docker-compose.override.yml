@@ -1,0 +1,26 @@
+services:
+  backend:
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
+
+  frontend:
+    # environment:
+    #     FRAPPE_SITE_NAME_HEADER: erpnext.localhost
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+
+  queue-short:
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
+
+  queue-default:
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
+
+  queue-long:
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
+
+  scheduler:
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
