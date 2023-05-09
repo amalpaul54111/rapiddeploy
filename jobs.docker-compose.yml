@@ -2,19 +2,19 @@
 services:
   migrate:
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench --site $SITE migrate
     environment:
       - ADMIN_PASSWORD=AdminPassword@123
 
   reinstall: 
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench --site ${SITE} reinstall --yes --mariadb-root-username root --mariadb-root-password 123 --admin-password AdminPassword@123
 
   restore-db: 
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench --site ${SITE} restore database.sql.gz --db-root-username  db_name --db-root-password db_pwd --admin-password AdminPassword@123
     environment:
       - DB_NAME=erpnextdb
@@ -22,15 +22,15 @@ services:
 
   remove-app: 
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench --site ${SITE} uninstall-app ${APPS}
 
   new-app:
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench --site ${SITE} install-app ${APPS}
   
   get-app:
     restart: on-failure
-    image: tacten_images/tacten_worker:v1.0
+    image: ghcr.io/tacten/erpnext-template/worker:main
     command: bench get-app ${APPS}
