@@ -1,0 +1,5 @@
+services:
+  reinstall:
+    restart: on-failure
+    image: ghcr.io/tacten/erpnext-template/worker:main
+    command: bench --site ${SITE} reinstall --yes --mariadb-root-username root --mariadb-root-password 123 --admin-password AdminPassword@123
