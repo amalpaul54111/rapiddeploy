@@ -2,104 +2,106 @@ name: Build latest images
 
 on:
   push:
+    paths-ignore:
+    - '*docker-compose*'
     branches:
-      - main
+    - main
     tags:
-      - "v*"
+    - "v*"
 
 jobs:
   build:
     runs-on: [hetzner, erpnext, template]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Clone custom apps
-        run: ./ci/clone-apps.sh
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          PYTHONPEN_GITHUB_PASSWORD: ${{ secrets.PYTHONPEN_GITHUB_PASSWORD }}
+    - name: Clone custom apps
+      run: ./ci/clone-apps.sh
+      env:
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        PYTHONPEN_GITHUB_PASSWORD: ${{ secrets.PYTHONPEN_GITHUB_PASSWORD }}
 
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          image: tonistiigi/binfmt:latest
-          platforms: all
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v2
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: all
 
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Docker meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    - name: Docker meta
+      id: docker_meta
+      uses: docker/metadata-action@v3
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Base Versions
-        id: get-base-versions
-        run: |
-          MY_VAR="$(jq -r .frappe base_versions.json)"
-          echo "FRAPPE_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
-          MY_VAR="$(jq -r .erpnext base_versions.json)"
-          echo "ERPNEXT_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
+    - name: Get Base Versions
+      id: get-base-versions
+      run: |
+        MY_VAR="$(jq -r .frappe base_versions.json)"
+        echo "FRAPPE_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
+        MY_VAR="$(jq -r .erpnext base_versions.json)"
+        echo "ERPNEXT_VERSION=$MY_VAR" >> $GITHUB_OUTPUT
 
-      - name: Get Repo
-        id: get-repo
-        run: |
-          echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
-          GITHUB_OWNER=${{ github.repository_owner }}
-          GITHUB_OWNER=$(echo $GITHUB_OWNER | tr '[:upper:]' '[:lower:]')
-          echo "GITHUB_OWNER=$GITHUB_OWNER" >> $GITHUB_OUTPUT
+    - name: Get Repo
+      id: get-repo
+      run: |
+        echo "REPOSITORY=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
+        GITHUB_OWNER=${{ github.repository_owner }}
+        GITHUB_OWNER=$(echo $GITHUB_OWNER | tr '[:upper:]' '[:lower:]')
+        echo "GITHUB_OWNER=$GITHUB_OWNER" >> $GITHUB_OUTPUT
 
-      - name: Build and Push
-        uses: docker/bake-action@v2.3.0
-        with:
-          push: true
-          no-cache: true
-          # set: "*.platform=linux/amd64,linux/arm64"
-          # set: |
-          #   *.tags=${{ steps.meta.outputs.tags }}
-          #   *.labels=${{ steps.meta.outputs.labels }}
-          #   *.platform=linux/amd64,linux/arm64
-        env:
-          FRAPPE_VERSION: ${{ steps.get-base-versions.outputs.FRAPPE_VERSION }}
-          ERPNEXT_VERSION: ${{ steps.get-base-versions.outputs.ERPNEXT_VERSION }}
-          REGISTRY_NAME: ghcr.io/${{ steps.get-repo.outputs.GITHUB_OWNER }}
-          VERSION: ${{  github.ref_name }}
-          BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
-          FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
-          SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
+    - name: Build and Push
+      uses: docker/bake-action@v2.3.0
+      with:
+        push: true
+        no-cache: true
+        # set: "*.platform=linux/amd64,linux/arm64"
+        # set: |
+        #   *.tags=${{ steps.meta.outputs.tags }}
+        #   *.labels=${{ steps.meta.outputs.labels }}
+        #   *.platform=linux/amd64,linux/arm64
+      env:
+        FRAPPE_VERSION: ${{ steps.get-base-versions.outputs.FRAPPE_VERSION }}
+        ERPNEXT_VERSION: ${{ steps.get-base-versions.outputs.ERPNEXT_VERSION }}
+        REGISTRY_NAME: ghcr.io/${{ steps.get-repo.outputs.GITHUB_OWNER }}
+        VERSION: ${{  github.ref_name }}
+        BACKEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/worker
+        FRONTEND_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/nginx
+        SOCKETIO_IMAGE_NAME: ${{ steps.get-repo.outputs.REPOSITORY }}/socketio
 
-      # - name: Deploy
-      #   run: |
-      #     docker compose up -d
+    # - name: Deploy
+    #   run: |
+    #     docker compose up -d
 
-      # - name: Fetch tacten-deploy repo
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: medblocks/tacten-deploy
-      #     persist-credentials: false
-      #     fetch-depth: 0
-      #     token: ${{ secrets.NEUTRALBOY_GHSECRET }}
+    # - name: Fetch tacten-deploy repo
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: medblocks/tacten-deploy
+    #     persist-credentials: false
+    #     fetch-depth: 0
+    #     token: ${{ secrets.NEUTRALBOY_GHSECRET }}
 
-      # - name: Update the mainfest
-      #   if: startsWith(github.ref, 'refs/tags/v')
-      #   run: |
-      #     cat apps/kustomization.template.yaml | sed -e "s@NEW_TAG@${{  github.ref_name }}@g" | tee apps/kustomization.yaml
-      #     git config --global user.email "leopoorna99@gmail.com"
-      #     git config --global user.name "neutralboy"
-      #     git add .
-      #     git commit -m "Tagged new erpnext ${{  github.ref_name }}"
-      # - name: Push to tacten-deploy
-      #   if: startsWith(github.ref, 'refs/tags/v')
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
-      #     repository: medblocks/tacten-deploy
+    # - name: Update the mainfest
+    #   if: startsWith(github.ref, 'refs/tags/v')
+    #   run: |
+    #     cat apps/kustomization.template.yaml | sed -e "s@NEW_TAG@${{  github.ref_name }}@g" | tee apps/kustomization.yaml
+    #     git config --global user.email "leopoorna99@gmail.com"
+    #     git config --global user.name "neutralboy"
+    #     git add .
+    #     git commit -m "Tagged new erpnext ${{  github.ref_name }}"
+    # - name: Push to tacten-deploy
+    #   if: startsWith(github.ref, 'refs/tags/v')
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.NEUTRALBOY_GHSECRET }}
+    #     repository: medblocks/tacten-deploy
