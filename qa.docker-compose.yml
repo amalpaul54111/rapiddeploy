@@ -1,12 +1,12 @@
 services:
-  # migrate:
-  #   restart: on-failure
-  #   image: ${WORKER_IMAGE}
-  #   command: bench --site ${SITE} migrate
-  #   environment:
-  #   - ADMIN_PASSWORD=AdminPassword@123
-
-  reinstall:
+  migrate:
     restart: on-failure
     image: ${WORKER_IMAGE}
-    command: bench --site ${SITE} reinstall --yes --mariadb-root-username root --mariadb-root-password MariaDBPassword@123 --admin-password AdminPassword@123
+    command: bench --site ${SITE} migrate
+    environment:
+    - ADMIN_PASSWORD=AdminPassword@123
+
+  # reinstall:
+  #   restart: on-failure
+  #   image: ${WORKER_IMAGE}
+  #   command: bench --site ${SITE} reinstall --yes --mariadb-root-username root --mariadb-root-password MariaDBPassword@123 --admin-password AdminPassword@123
