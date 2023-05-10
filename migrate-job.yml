@@ -1,7 +1,0 @@
-services:
-  migrate:
-    restart: on-failure
-    image: ${WORKER_IMAGE}
-    command: bench --site $SITE migrate
-    environment:
-    - ADMIN_PASSWORD=AdminPassword@123
