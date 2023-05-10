@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/tacten/erpnext-template/worker:main
+    image: ${WORKER_IMAGE}
     command:
       - /home/frappe/frappe-bench/env/bin/gunicorn
       - --bind=0.0.0.0:8000
@@ -33,7 +33,7 @@ services:
 
   frontend:
     restart: on-failure
-    image: ghcr.io/tacten/erpnext-template/nginx:main
+    image: ${NGINX_IMAGE}
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
@@ -47,7 +47,7 @@ services:
       - 8080:8080
 
   websocket:
-    image: ghcr.io/tacten/erpnext-template/socketio:main
+    image: ${SOCKETIO_IMAGE}
     environment:
       BACKEND: backend:8000
       SOCKETIO: websocket:9000
@@ -60,7 +60,7 @@ services:
       - redis-socketio
 
   queue-short:
-    image: ghcr.io/tacten/erpnext-template/worker:main
+    image: ${WORKER_IMAGE}
     command: bench worker --queue short
     environment:
       DB_HOST: ${DB_HOST}
@@ -73,7 +73,7 @@ services:
       - redis-queue
 
   queue-default:
-    image: ghcr.io/tacten/erpnext-template/worker:main
+    image: ${WORKER_IMAGE}
     command: bench worker --queue default
     environment:
       DB_HOST: ${DB_HOST}
@@ -86,7 +86,7 @@ services:
       - redis-queue
 
   queue-long:
-    image: ghcr.io/tacten/erpnext-template/worker:main
+    image: ${WORKER_IMAGE}
     command: bench worker --queue long
     environment:
       DB_HOST: ${DB_HOST}
@@ -99,7 +99,7 @@ services:
       - redis-queue
     
   scheduler:
-    image: ghcr.io/tacten/erpnext-template/worker:main
+    image: ${WORKER_IMAGE}
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
