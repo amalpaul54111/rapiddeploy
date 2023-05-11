@@ -11,22 +11,18 @@ services:
       - ./nginx.conf:/etc/nginx/templates/default.conf.template
 
   queue-short:
-    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   queue-default:
-    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   queue-long:
-    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   scheduler:
-    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
   
