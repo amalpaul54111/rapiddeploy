@@ -1,5 +1,6 @@
 services:
   backend:
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
@@ -10,24 +11,29 @@ services:
       - ./nginx.conf:/etc/nginx/templates/default.conf.template
 
   queue-short:
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   queue-default:
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   queue-long:
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
   scheduler:
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
   
   migrate:
     restart: on-failure
     image: ${WORKER_IMAGE}
+    user: "${UID:-0}:${GID:-0}"
     command: bash -c "bench set-config -g developer_mode 1 && bench --site ${SITE} migrate"
     environment:
     - ADMIN_PASSWORD=AdminPassword@123
