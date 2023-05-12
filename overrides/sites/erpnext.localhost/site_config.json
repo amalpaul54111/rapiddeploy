@@ -1,0 +1,10 @@
+{
+ "developer_mode": 1,
+ "allow_cors": "*",
+ "admin_password": "AdminPassword@123",
+ "db_name": "erpnextdb",
+ "db_password": "MariaDBPassword@123",
+ "db_type": "mariadb",
+ "server_script_enabled": true,
+ "encryption_key": "AuZ2rvEV6h1qXnWN4ugj5_o7ERWrhIKF5Rzaus-przY="
+}
