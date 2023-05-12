@@ -1,6 +1,6 @@
 services:
   backend:
-    user: "0:0"
+    # user: "0:0"
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
 
@@ -29,7 +29,7 @@ services:
   migrate:
     restart: on-failure
     image: ${WORKER_IMAGE}
-    user: "0:0"
+    # user: "0:0"
     command: bash -c "bench set-config -g developer_mode 1 && bench --site ${SITE} migrate"
     environment:
     - ADMIN_PASSWORD=AdminPassword@123
