@@ -1,26 +1,26 @@
 services:
   backend:
     volumes:
-      - ./overrides/sites:/home/frappe/frappe-bench/sites
+      - ./sites:/home/frappe/frappe-bench/sites
 
   frontend:
     # environment:
     #     FRAPPE_SITE_NAME_HEADER: ${SITE}
     volumes:
-      - ./overrides/nginx.conf:/etc/nginx/templates/default.conf.template
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
 
   queue-short:
     volumes:
-      - ./overrides/sites:/home/frappe/frappe-bench/sites
+      - ./sites:/home/frappe/frappe-bench/sites
 
   queue-default:
     volumes:
-      - ./overrides/sites:/home/frappe/frappe-bench/sites
+      - ./sites:/home/frappe/frappe-bench/sites
 
   queue-long:
     volumes:
-      - ./overrides/sites:/home/frappe/frappe-bench/sites
+      - ./sites:/home/frappe/frappe-bench/sites
 
   scheduler:
     volumes:
-      - ./overrides/sites:/home/frappe/frappe-bench/sites
+      - ./sites:/home/frappe/frappe-bench/sites
