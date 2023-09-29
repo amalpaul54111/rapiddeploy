@@ -1,0 +1,141 @@
+services:
+  backend:
+    image: ${WORKER_IMAGE}
+    command:
+      - /home/frappe/frappe-bench/env/bin/gunicorn
+      - --bind=0.0.0.0:8000
+      - --config=/opt/patches/gevent_patch.py
+      - --log-file=-
+      - --preload
+      - --threads=4
+      - --timeout=120
+      - --worker-class=gevent
+      - --worker-tmp-dir=/dev/shm
+      - --workers=2
+      - frappe.app:application
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      REDIS_CACHE: ${REDIS_CACHE}
+      REDIS_QUEUE: ${REDIS_QUEUE}
+      REDIS_SOCKETIO: ${REDIS_SOCKETIO}
+      SOCKETIO_PORT: 9000
+    depends_on:
+      - queue-short
+      - queue-default
+      - queue-long
+      - scheduler
+      - redis-cache
+      - redis-socketio
+    ports:
+      - 8000:8000
+
+
+  frontend:
+    restart: on-failure
+    image: ${NGINX_IMAGE}
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
+      UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
+      UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
+    depends_on:
+      - backend
+      - websocket
+    ports:
+      - 8080:8080
+
+  websocket:
+    image: ${SOCKETIO_IMAGE}
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: localhost
+      UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS:-127.0.0.1}
+      UPSTREAM_REAL_IP_HEADER: ${UPSTREAM_REAL_IP_HEADER:-X-Forwarded-For}
+      UPSTREAM_REAL_IP_RECURSIVE: ${UPSTREAM_REAL_IP_RECURSIVE:-off}
+    depends_on:
+      - backend
+      - redis-socketio
+
+  queue-short:
+    image: ${WORKER_IMAGE}
+    command: bench worker --queue short
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      REDIS_CACHE: ${REDIS_CACHE}
+      REDIS_QUEUE: ${REDIS_QUEUE}
+      REDIS_SOCKETIO: ${REDIS_SOCKETIO}
+      SOCKETIO_PORT: 9000
+    depends_on:
+      - redis-queue
+
+  queue-default:
+    image: ${WORKER_IMAGE}
+    command: bench worker --queue default
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      REDIS_CACHE: ${REDIS_CACHE}
+      REDIS_QUEUE: ${REDIS_QUEUE}
+      REDIS_SOCKETIO: ${REDIS_SOCKETIO}
+      SOCKETIO_PORT: 9000
+    depends_on:
+      - redis-queue
+
+  queue-long:
+    image: ${WORKER_IMAGE}
+    command: bench worker --queue long
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      REDIS_CACHE: ${REDIS_CACHE}
+      REDIS_QUEUE: ${REDIS_QUEUE}
+      REDIS_SOCKETIO: ${REDIS_SOCKETIO}
+      SOCKETIO_PORT: 9000
+    depends_on:
+      - redis-queue
+    
+  scheduler:
+    image: ${WORKER_IMAGE}
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      REDIS_CACHE: ${REDIS_CACHE}
+      REDIS_QUEUE: ${REDIS_QUEUE}
+      REDIS_SOCKETIO: ${REDIS_SOCKETIO}
+      SOCKETIO_PORT: 9000
+    command: bench schedule
+
+  mariadb:
+    image: mariadb:10.6
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: "MariaDBPassword@123"
+      MARIADB_DATABASE: erpnextdb
+      MARIADB_USER: erpnext
+      MARIADB_PASSWORD: MariaDBPassword@123
+    ports:             
+      - 3306:3306
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    depends_on:
+      - redis-queue
+
+  redis-cache:
+    image: redis:alpine
+
+  redis-queue:
+    image: redis:alpine
+
+  redis-socketio:
+    image: redis:alpine
+
+volumes:
+  mariadb-data:

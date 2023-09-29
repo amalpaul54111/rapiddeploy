@@ -1,0 +1,19 @@
+{
+  "name": "erpnext",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "release": "npx standard-version -a && git push --follow-tags origin main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tacten/erpnext-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tacten/erpnext-template/issues"
+  },
+  "homepage": "https://github.com/tacten/erpnext-template#readme"
+}

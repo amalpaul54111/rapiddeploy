@@ -1,0 +1,49 @@
+services:
+  backend:
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+    depends_on:
+      - git-clone
+
+  frontend:
+    # environment:
+    #     FRAPPE_SITE_NAME_HEADER: ${SITE}
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+
+  queue-short:
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+
+  queue-default:
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+
+  queue-long:
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+
+  scheduler:
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+
+  git-clone:
+    restart: on-failure
+    image: bitnami/git
+    command: git clone --depth 1 --branch main https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/Tacten/erpnext-template.git /mnt/erpnext && cp -r /mnt/erpnext/sites/ /mnt/sites && rm -rf /mnt/erpnext'
+    volumes:
+      - site-config:/mnt/sites     
+
+  migrate:
+    restart: on-failure
+    image: ${WORKER_IMAGE}
+    command: bash -c "bench set-config -g developer_mode 1 && bench --site ${SITE} clear-cache && bench --site ${SITE} migrate"
+    environment:
+      - ADMIN_PASSWORD=AdminPassword@123
+    volumes:
+      - site-config:/home/frappe/frappe-bench/sites
+    depends_on: 
+      - git-clone
+
+volumes:
+  site-config:
