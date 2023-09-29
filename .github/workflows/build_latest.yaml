@@ -23,7 +23,7 @@ jobs:
         PYTHONPEN_GITHUB_PASSWORD: ${{ secrets.PYTHONPEN_GITHUB_PASSWORD }}
 
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
       with:
         image: tonistiigi/binfmt:latest
         platforms: all
