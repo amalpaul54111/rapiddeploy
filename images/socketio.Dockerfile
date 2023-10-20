@@ -17,7 +17,7 @@ RUN jq --argjson dependencies "$(jq '.dependencies | INDEX( "express", "redis", 
     mv /opt/frappe/dependencies.json /opt/frappe/package.json
 
 # NodeJS LTS
-FROM node:20-alpine
+FROM node:21-alpine
 
 RUN addgroup -S frappe \
     && adduser -S frappe -G frappe
