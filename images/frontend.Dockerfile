@@ -41,7 +41,7 @@ RUN git clone --depth 1 ${BENCH_REPO} /tmp/bench \
     && mv /tmp/bench/bench/config/templates/502.html /out \
     && touch /out/.build
 
-FROM nginxinc/nginx-unprivileged:1.23.4-alpine as frappe
+FROM nginxinc/nginx-unprivileged:1.25.3-alpine as frappe
 
 # Set default ENV variables for backwards compatibility
 ENV PROXY_READ_TIMOUT=120
